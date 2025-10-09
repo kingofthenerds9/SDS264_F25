@@ -157,7 +157,10 @@ michelle_words |>
 ```
 
 # Most common word pairs
+Next, we see the most common words by month recorded for both Barack and Michelle (since the majority of tweets during this time period come from Michelle, the combined dataset isn't used here). The words most commonly used by Barack emit a sense of political activism, initiative and inspiration--including great, change, health, people, history, etc.. On the other hand, almost of all of Michelle's most commonly used words by month were "lady" (possibly in self-reference to her title as first lady)--not at exciting at all.
 
+
+# Most common word pairs
 ```{r}
 #| echo: false
 barack |>
@@ -229,7 +232,10 @@ barack_words |>
 ```
 
 # Mood words of tweets
+For the remaining two charts, we will solely be focusing on Barack's tweeting history to see if we can garner any further insights about his final 20 months as president. First we will be looking at a measure of "net proportional positivity" for each of our recorded months by appending either a positive and negative sentiment to a select subset of our words. We then add together the net sum of each sentiment (assuming that a positive word has a +1 value and a negative word has a -1 value) and dividing that number by the total number of words utilized in the calculation. What we find is an oddly positive sentiment from Baracks tweets across every single month with no net proportional sentiment dipping under 0.5 and many of them sitting at a proportion of 1.0. This could support the driven and fearless character that President Obama seems to have built his campaign off of as shown by his word choice in our previous charts. 
 
+
+# Mood words of tweets
 ```{r}
 #| echo: false
 nrc_sentiments <- get_sentiments("nrc")
@@ -267,3 +273,5 @@ barack_words |>
     y = "Proportion"
   )
 ```
+
+Finally, we analyze a plethora of different moods of words by appending a much broader list of emotions to our list of words. We derive the same process from our previous chart by taking the proportion of each emotion used in the words of Barack's tweets and dividing it by the total amount of words tweeted within that month. The results show a surprisingly unwavering proportion of each emotion for each month, regardless of how many total words were tweeted out during that month, which could possibly allude to an unwavering character not easily influenced by outside events or conflicts.
