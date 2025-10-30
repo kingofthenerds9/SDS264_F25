@@ -1,0 +1,119 @@
+---
+title: "R Tip of the Day"
+subtitle: "Package: reticulate"
+author: "Mitch Thronson"
+date: "October 30 2025"
+format:
+  revealjs:
+    theme: default
+---
+
+```{r}
+library(reticulate)
+```
+
+## 
+
+reticulate:
+
+    (v) divide or mark (something) in such a way as to resemble a net or network.
+  
+    (adj) arranged or marked like a net or network; reticulated.
+
+. . .
+
+In short, the `reticulate` package is useful to integrate python-related code into an R document, like networking or "reticulating" between both coding languages!
+
+## In particular, the `reticulate` package is used to... 
+
+::: incremental
+1. Integrate python code within a chunk of R code
+2. Import python modules (eg: math, turtle, os, etc.)
+3. Source python scripts 
+4. Utilize the python REPL 
+:::
+
+## Initial setup {auto-animate="true"}
+
+Simply install the `reticulate` package, and call it into your R document as such:
+
+``` r
+library(reticulate)
+```
+
+## Initial setup {auto-animate="true"}
+
+Then you can call in python requirements into your R document using `py_require()` (new as of version 1.41!).
+
+``` r 
+library(reticulate)
+py_require(
+  packages = NULL,
+  python_version = NULL,
+  ...,
+  exclude_newer = NULL,
+  action = c("add", "remove", "set")
+)
+```
+
+## Using python in R code {transition="fade-out"}
+
+We can create some code with variables in python ...
+
+``` python
+num = int(input("Please provide an integer: "))
+x = num * 5
+```
+
+. . .
+
+... and utilize those variables within R code as well.
+
+``` r
+y = (2 * py$x - 5) / 3
+```
+
+## Importing python modules {transition="fade-in zoom-out"}
+
+Python modules can be accessed through `reticulate` using the `import()` function. Allowing you that would not otherwise be accessible in R (ex: `listdir()` from the `os` module).
+
+``` {r}
+#| echo: true
+library(reticulate)
+os <- import("os")
+os$listdir(".")
+```
+
+## Sourcing python scripts {transition="zoom-in slide-out"}
+
+`flights.py`
+``` python
+import pandas
+def read_flights(file):
+  flights = pandas.read_csv(file)
+  flights = flights[flights['dest'] == "ORD"]
+  flights = flights[['carrier', 'dep_delay', 'arr_delay']]
+  flights = flights.dropna()
+  return flights
+```
+
+. . . 
+
+R code using `flights.py`
+
+``` r
+source_python("flights.py")
+flights <- read_flights("flights.csv")
+
+library(ggplot2)
+ggplot(flights, aes(carrier, arr_delay)) + geom_point() + geom_jitter()
+```
+
+## Using python REPL {transition="slide-in"}
+
+Let's say there's a specific chunk of python code that you need to test out.
+Using the `repl_python()` function can create your own REPL within your R code just like in python!
+
+![](python_repl_example.png){.absolute top=250 left=0 width="1276" height="441"}
+
+# Thanks for listening!!!
